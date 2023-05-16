@@ -46,8 +46,8 @@ public class Book {
                 '}';
     }
 
-    public void setCurrentBid(int currentBid) {
-        this.currentBid = currentBid;
+    public void setCurrentBid(Bid currentBid) {
+        this.currentBid = currentBid.getPrice();
     }
 
     public int getCurrentBid() {

@@ -26,7 +26,7 @@ public class Transaction {
         return bidder;
     }
 
-    public LocalDateTime getTimestamp() {
+    public final LocalDateTime getTimestamp() {
         return timestamp;
     }
 
