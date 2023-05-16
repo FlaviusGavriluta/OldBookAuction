@@ -44,30 +44,38 @@ public class Bidder {
         return false;
     }
 
+
+
     public boolean canBid(Book book, int currentPrice){
         return getThresholdPrice(book.getTopic()) > currentPrice;
     }
 
     public Bid getBid(Book book, Bid currentBid){
+        if (book.getCurrentBid() <= currentBid.getPrice()) return currentBid;
         return null;
-        //TODO
     }
 
     private static int getBidPrice(int currentPrice, int threshold){
+        if(currentPrice <= threshold) {
+            return currentPrice;
+        }
         return 0;
         //TODO
     }
 
     private int getThresholdPrice(Topic topic){
-      if(Arrays.asList(this.interested).contains(topic)) {
+
+        if(this.favourite.equals(topic)) return (int) (0.5 * this.capital);
+
+        if(Arrays.asList(this.interested).contains(topic)) {
           return (int) (0.25*this.capital);
       }
-      if(this.favourite.equals(topic)) return (int) (0.5 * this.capital);
+
 
       return 0;
     }
 
     public void buyBook(Book book){
-        //TODO
+        this.capital = this.capital - book.getPrice();
     }
 }

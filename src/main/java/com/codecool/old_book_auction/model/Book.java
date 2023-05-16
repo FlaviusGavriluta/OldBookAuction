@@ -4,17 +4,19 @@ public class Book {
 
     private final int id;
 
-    private final String title;
+    private final Books books;
 
     private final Topic topic;
 
     private final int price;
 
-    public Book(int id, String title, Topic topic, int price) {
+    private int currentBid;
+    public Book(int id, Books books, Topic topic, int price) {
         this.id = id;
-        this.title = title;
+        this.books = books;
         this.topic = topic;
         this.price = price;
+        this.currentBid = price;
     }
 
 
@@ -22,8 +24,8 @@ public class Book {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public Books getTitle() {
+        return books;
     }
 
     public Topic getTopic() {
@@ -38,9 +40,17 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", title='" + books + '\'' +
                 ", topic='" + topic + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    public void setCurrentBid(int currentBid) {
+        this.currentBid = currentBid;
+    }
+
+    public int getCurrentBid() {
+        return currentBid;
     }
 }

@@ -1,19 +1,17 @@
 package com.codecool.old_book_auction.model;
 
+import java.time.LocalDateTime;
+
 public class Transaction {
-
-    //Transaction: a transaction is created when a book is successfully sold to a bidder.
-    // It has an id and a timestamp, and has reference to the Bid and the Bidder objects.
-
     private final int id;
     private final Bidder bidder;
 
-    private final String timestamp;
+    private LocalDateTime timestamp;
 
     private final Bid bid;
 
 
-    public Transaction(int id, Bidder bidder, String timestamp, Bid bid) {
+    public Transaction(int id, Bidder bidder, LocalDateTime timestamp, Bid bid) {
         this.id = id;
         this.bidder = bidder;
         this.timestamp = timestamp;
@@ -28,7 +26,7 @@ public class Transaction {
         return bidder;
     }
 
-    public String getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
