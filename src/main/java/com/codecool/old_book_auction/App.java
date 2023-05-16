@@ -27,7 +27,7 @@ public class App {
         GenerateRandom rand = new GenerateRandom();
 
         for ( int i=0; i < bookCount; i++) {
-         bookObjects[i] = new Book(i+1, Books.values()[rand.generateRandom(20)] , Topic.values()[rand.generateRandom(5)], rand.generateRandom(maxPrice));
+         bookObjects[i] = new Book(i+1, Books.values()[rand.generateRandom(bookCount)] , Topic.values()[rand.generateRandom(5)], rand.generateRandom(maxPrice));
         }
 
         for ( int i=0; i< bidderCount; i++) {

@@ -6,8 +6,6 @@ public class GenerateRandom {
 
         SecureRandom rand = new SecureRandom();
 
-        int int_random1 = rand.nextInt(upperbound);
-
-    return int_random1;
+    return rand.nextInt(upperbound);
     }
 }
