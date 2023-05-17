@@ -42,12 +42,14 @@ public class Book {
                 "id=" + id +
                 ", title='" + books + '\'' +
                 ", topic='" + topic + '\'' +
-                ", price=" + price +
+                ", price=" + price + '\'' +
+                ",currentBid=" + currentBid +
                 '}';
     }
 
-    public void setCurrentBid(Bid currentBid) {
-        this.currentBid = currentBid.getPrice();
+    public void setCurrentBid(int currentBid) {
+
+        this.currentBid = currentBid;
     }
 
     public int getCurrentBid() {

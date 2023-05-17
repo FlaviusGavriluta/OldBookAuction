@@ -59,6 +59,7 @@ public class App {
         for (int i = 0; i < bookCount; i++) {
             //    Bidder[] interestedBidders = new Bidder[];
             ArrayList<Bidder> interestedBidders = new ArrayList<>();
+            ArrayList<Bid> bidds = new ArrayList<>();
 //            System.out.println(bookObjects[i].getTitle());
 //            System.out.println(bookObjects[i].getTopic());
 //            System.out.println(bookObjects[i].getPrice());
@@ -70,13 +71,24 @@ public class App {
 
             }
             Collections.shuffle(interestedBidders);
-
+            System.out.println(bookObjects[i].getTitle());
+            System.out.println(bookObjects[i].getPrice());
+            System.out.println("=========");
             for (int k = 0; k < interestedBidders.size(); k++) {
                if(interestedBidders.get(k).canBid(bookObjects[i],
-                        bookObjects[i].getCurrentBid()))  {
-                   bookObjects[i].setCurrentBid(new Bid(GenerateRandom.generateRandom(),
+                        bookObjects[i].getCurrentBid())) {
+                   bidds.add(new Bid(GenerateRandom.generateRandom(),
                            interestedBidders.get(k),
-                           interestedBidders.get(k).getBidPrice(bookObjects[i].getCurrentBid(), ));
+                           interestedBidders.get(k).makeBid(bookObjects[i])));
+
+                   bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
+
+                   System.out.println(bookObjects[i].getTitle());
+                   System.out.println(bookObjects[i].getCurrentBid());
+                     System.out.println(bidds.get(bidds.size()-1).getPrice());
+                   System.out.println(bidds);
+                   System.out.println(interestedBidders.get(k).makeBid(bookObjects[i]));
+                   System.out.println("----------");
                }
             }
 

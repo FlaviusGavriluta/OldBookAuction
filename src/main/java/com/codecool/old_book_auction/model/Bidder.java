@@ -49,7 +49,7 @@ public class Bidder {
     public boolean canBid(Book book, int currentPrice) {
         int maxAmount = getThresholdPrice(book.getTopic());
         int priceToPay = (maxAmount - currentPrice) / 2 + currentPrice;
-        return maxAmount > priceToPay;
+        return maxAmount >= priceToPay;
     }
 
     public Bid getBid(Book book, Bid currentBid) {
@@ -58,10 +58,16 @@ public class Bidder {
         return null;
     }
 
+    public int makeBid(Book book) {
+        int maxPay = getThresholdPrice(book.getTopic());
+        int bid = getBidPrice(book.getCurrentBid(), maxPay);
+        return Math.max(bid, 0);
+    }
+
     private static int getBidPrice(int currentPrice, int threshold) {
-   int priceToPay = (threshold - currentPrice) /2 + currentPrice
-        if (currentPrice <= threshold) {
-            return currentPrice;
+        int priceToPay = (threshold - currentPrice) / 2 + currentPrice;
+        if (currentPrice <= priceToPay) {
+            return Math.max(priceToPay, currentPrice);
         }
         return 0;
     }
@@ -75,6 +81,7 @@ public class Bidder {
         }
         return 0;
     }
+
     public void buyBook(Book book) {
         this.capital = this.capital - book.getCurrentBid();
     }
