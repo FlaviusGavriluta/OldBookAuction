@@ -33,10 +33,12 @@ public class App {
 //        GenerateRandom rand = new GenerateRandom();
 
         for (int i = 0; i < bookCount; i++) {
-            bookObjects[i] = new Book(i + 1,
+            bookObjects[i] = new Book(
+                    i + 1,
                     Books.values()[GenerateRandom.generateRandom(bookCount)],
                     Topic.values()[GenerateRandom.generateRandom(5)],
-                    GenerateRandom.generateRandom(maxPrice));
+                    GenerateRandom.generateRandom(maxPrice)
+            );
         }
 
         for (int i = 0; i < bidderCount; i++) {
@@ -69,14 +71,14 @@ public class App {
             }
             Collections.shuffle(interestedBidders);
 
-//            for (int k = 0; k < interestedBidders.size(); k++) {
-//               if(interestedBidders.get(k).canBid(bookObjects[i],
-//                        bookObjects[i].getCurrentBid()))  {
-//                   bookObjects[i].setCurrentBid(new Bid(GenerateRandom.generateRandom(),
-//                           interestedBidders.get(k),
-//                           interestedBidders.get(k).getBidPrice(bookObjects[i].getCurrentBid(), ));
-//               }
-//            }
+            for (int k = 0; k < interestedBidders.size(); k++) {
+               if(interestedBidders.get(k).canBid(bookObjects[i],
+                        bookObjects[i].getCurrentBid()))  {
+                   bookObjects[i].setCurrentBid(new Bid(GenerateRandom.generateRandom(),
+                           interestedBidders.get(k),
+                           interestedBidders.get(k).getBidPrice(bookObjects[i].getCurrentBid(), ));
+               }
+            }
 
 //            for (int nBidder = 0; nBidder < interestedBidders.size(); nBidder++) {
 //                if (interestedBidders[nBidder]

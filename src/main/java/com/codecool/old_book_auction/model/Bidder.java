@@ -57,10 +57,9 @@ public class Bidder {
             return currentBid;
         return null;
     }
-    public setBid() {
 
-    }
     private static int getBidPrice(int currentPrice, int threshold) {
+   int priceToPay = (threshold - currentPrice) /2 + currentPrice
         if (currentPrice <= threshold) {
             return currentPrice;
         }
