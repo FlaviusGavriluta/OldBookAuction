@@ -5,12 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Bidder {
+    private int id;
+    private String name;
+    private double capital;
     private final List<Book> books = new ArrayList<Book>();
     private final Topics favourite;
     private final Topics[] interested;
-    private double capital;
-    private int id;
-    private String name;
+
 
     public Bidder(int id, double capital, Topics favourite, Topics[] interested) {
         this.id = id;
@@ -73,15 +74,16 @@ public class Bidder {
         return name;
     }
 
+
     @Override
     public String toString() {
         return "Bidder{" +
-                "books=" + books +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", capital=" + capital +
+                ", books=" + books +
                 ", favourite=" + favourite +
                 ", interested=" + Arrays.toString(interested) +
-                ", capital=" + capital +
-                ", id=" + id +
-                ", name='" + name + '\'' +
                 '}';
     }
 }
