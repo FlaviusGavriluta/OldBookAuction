@@ -22,32 +22,31 @@ public class Bidder {
     }
 
     public boolean interested(Book book) {
-        return false;
-        //TODO
+        Topics bookTopic = book.getTopic();
+        return (bookTopic == favourite || Arrays.asList(interested).contains(bookTopic));
     }
 
     public boolean canBid(Book book, int currentPrice) {
-        return false;
-        //TODO
+        return currentPrice < getThresholdPrice(book.getTopic());
     }
 
-    public Bid getBid(Book book, Bid currentBid) {
-        return null;
-        //TODO
+    public Bid getBid(int bidID, Book book, Bid currentBid) {
+        int bidPrice = getBidPrice(currentBid.getBidPrice(), getThresholdPrice(book.getTopic()));
+        return new Bid(bidID, this, bidPrice);
     }
 
     private static int getBidPrice(int currentPrice, int threshold) {
-        return 0;
-        //TODO
+        int range = threshold - currentPrice;
+        return (range / 2) + currentPrice;
     }
 
     private int getThresholdPrice(Topics topic) {
-        return 0;
-        //TODO
+        return topic == favourite ? (int) (capital * 0.5) : (int) (capital * 0.25);
     }
 
     public void buyBook(Book book) {
-        //TODO
+        capital -= book.getPrice();
+        books.add(book);
     }
 
     public List<Book> getBooks() {
