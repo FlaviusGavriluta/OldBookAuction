@@ -27,7 +27,7 @@ public class Bid {
     public String toString() {
         return "Bid{" +
                 "id=" + id +
-                ", bidder=" + bidder +
+                ", bidder=" + bidder.getName() +
                 ", bidPrice=" + bidPrice +
                 '}';
     }
