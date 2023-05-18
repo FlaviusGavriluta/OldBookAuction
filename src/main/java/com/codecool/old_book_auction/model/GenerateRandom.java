@@ -20,6 +20,12 @@ public class GenerateRandom {
         return rand.nextInt(Integer.MAX_VALUE);
     }
 
+    public static int generateRandom( int min, int max ) {
+        SecureRandom rand = new SecureRandom();
+        return Math.round(rand.nextInt(max-min+1)+min);
+
+    }
+
 
 
 

@@ -27,6 +27,10 @@ public class Bidder {
                 '}';
     }
 
+    public void setCapital(double capital) {
+        this.capital = capital;
+    }
+
     public Bidder(int id, double capital, Topic favourite, Topic[] interested) {
         this.id = id;
         this.capital = capital;
@@ -48,8 +52,8 @@ public class Bidder {
 
     public boolean canBid(Book book, int currentPrice) {
         int maxAmount = getThresholdPrice(book.getTopic());
-        int priceToPay = (maxAmount - currentPrice) / 2 + currentPrice;
-        return maxAmount >= priceToPay;
+        if (maxAmount > currentPrice) return true;
+        else return false;
     }
 
     public Bid getBid(Book book, Bid currentBid) {
@@ -60,16 +64,11 @@ public class Bidder {
 
     public int makeBid(Book book) {
         int maxPay = getThresholdPrice(book.getTopic());
-        int bid = getBidPrice(book.getCurrentBid(), maxPay);
-        return Math.max(bid, 0);
+        return getBidPrice(book.getCurrentBid(), maxPay);
     }
 
     private static int getBidPrice(int currentPrice, int threshold) {
-        int priceToPay = (threshold - currentPrice) / 2 + currentPrice;
-        if (currentPrice <= priceToPay) {
-            return Math.max(priceToPay, currentPrice);
-        }
-        return 0;
+            return (threshold - currentPrice) / 2 + currentPrice;
     }
 
     private int getThresholdPrice(Topic topic) {
@@ -83,7 +82,7 @@ public class Bidder {
     }
 
     public void buyBook(Book book) {
-        this.capital = this.capital - book.getCurrentBid();
+        setCapital(this.capital - book.getCurrentBid());
     }
 
     public Topic getFavourite() {

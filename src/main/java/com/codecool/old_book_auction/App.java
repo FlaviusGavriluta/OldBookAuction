@@ -5,7 +5,7 @@ import com.codecool.old_book_auction.model.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.Date;
 
 
 public class App {
@@ -21,105 +21,104 @@ public class App {
 
         Book[] bookObjects = new Book[bookCount];
         Bidder[] bidderObjects = new Bidder[bidderCount];
-
-//        Book b1 = new Book(1,Books.values()[1],Topic.Physics, 100);
-//        System.out.println(b1);
-//        Bidder e1 = new Bidder(2 , 2000.0, Topic.Astronomy, new Topic[] {Topic.History, Topic.Physics});
-//        System.out.println(e1);
-//        Bid n1 = new Bid( 3, e1, b1.getPrice());
-//        System.out.println(e1.interested(b1));
-//        System.out.println(e1.canBid(b1, b1.getPrice()));
-//        System.out.println(e1.getBid(b1, n1));
-//        GenerateRandom rand = new GenerateRandom();
+        ArrayList<Book> soldBooks = new ArrayList<>();
 
         for (int i = 0; i < bookCount; i++) {
             bookObjects[i] = new Book(
                     i + 1,
                     Books.values()[GenerateRandom.generateRandom(bookCount)],
                     Topic.values()[GenerateRandom.generateRandom(5)],
-                    GenerateRandom.generateRandom(maxPrice)
+                    GenerateRandom.generateRandom(minPrice, maxPrice)
             );
         }
 
         for (int i = 0; i < bidderCount; i++) {
-            ArrayList<Topic> shuffledTopics = new ArrayList<Topic>(Arrays.asList(Topic.values()));
+            ArrayList<Topic> shuffledTopics = new ArrayList<>(Arrays.asList(Topic.values()));
 
             Collections.shuffle(shuffledTopics);
             Topic FavTopic = shuffledTopics.get(0);
             Topic IntrTopic1 = shuffledTopics.get(1);
             Topic IntrTopic2 = shuffledTopics.get(2);
             bidderObjects[i] = new Bidder(i + 1,
-                    GenerateRandom.generateRandom(maximumCapital),
+                    GenerateRandom.generateRandom(minimumCapital, maximumCapital),
                     FavTopic,
                     new Topic[]{IntrTopic1, IntrTopic2});
         }
-//        System.out.println(bookObjects[19]);
-//        System.out.println(bidderObjects[2]);
 
         for (int i = 0; i < bookCount; i++) {
-            //    Bidder[] interestedBidders = new Bidder[];
             ArrayList<Bidder> interestedBidders = new ArrayList<>();
             ArrayList<Bid> bidds = new ArrayList<>();
-//            System.out.println(bookObjects[i].getTitle());
-//            System.out.println(bookObjects[i].getTopic());
-//            System.out.println(bookObjects[i].getPrice());
-            for (int j = 0; j < bidderCount; j++) {
-
-                if (bookObjects[i].getTopic() == bidderObjects[j].getFavourite()) {
-                    interestedBidders.add(bidderObjects[j]);
-                }
-
-            }
-            Collections.shuffle(interestedBidders);
+            ArrayList<Bidder> copyOfInterested = new ArrayList<>();
+            System.out.println("\n");
+            System.out.println("Cartea scoasa la licitatie");
             System.out.println(bookObjects[i].getTitle());
             System.out.println(bookObjects[i].getPrice());
+            System.out.println(bookObjects[i].getTopic());
             System.out.println("=========");
-            for (int k = 0; k < interestedBidders.size(); k++) {
-               if(interestedBidders.get(k).canBid(bookObjects[i],
-                        bookObjects[i].getCurrentBid())) {
-                   bidds.add(new Bid(GenerateRandom.generateRandom(),
-                           interestedBidders.get(k),
-                           interestedBidders.get(k).makeBid(bookObjects[i])));
 
-                   bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
-
-                   System.out.println(bookObjects[i].getTitle());
-                   System.out.println(bookObjects[i].getCurrentBid());
-                     System.out.println(bidds.get(bidds.size()-1).getPrice());
-                   System.out.println(bidds);
-                   System.out.println(interestedBidders.get(k).makeBid(bookObjects[i]));
-                   System.out.println("----------");
-               }
+            for (int j = 0; j < bidderCount; j++) {
+                if (bookObjects[i].getTopic() == bidderObjects[j].getFavourite() ||
+                        Arrays.asList(bidderObjects[j].getInterested()).contains(bookObjects[i].getTopic())) {
+                    interestedBidders.add(bidderObjects[j]);
+                    copyOfInterested.add(bidderObjects[j]);
+                }
             }
+            Collections.shuffle(interestedBidders);
+            System.out.println("Licitatorii");
+            System.out.println(interestedBidders);
+            System.out.println("----------");
 
-//            for (int nBidder = 0; nBidder < interestedBidders.size(); nBidder++) {
-//                if (interestedBidders[nBidder]
-//            }
+            boolean sold = false;
+            while (!sold) {
+                for (int k = 0; k < interestedBidders.size(); k++) {
+                    if (interestedBidders.get(k).canBid(
+                            bookObjects[i],
+                            bookObjects[i].getCurrentBid())
+                    ) {
+                        bidds.add(new Bid(GenerateRandom.generateRandom(),
+                                interestedBidders.get(k),
+                                interestedBidders.get(k).makeBid(bookObjects[i])));
+                        System.out.println("pret initial:" + bookObjects[i].getPrice());
+                        bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
+                        System.out.println("pret de licitare : " + bookObjects[i].getCurrentBid());
+                        System.out.println("Licitatiile");
+                        System.out.println(bidds);
+                        System.out.println("----------");
+                    } else {
+                        System.out.println(interestedBidders);
+                        copyOfInterested.remove(copyOfInterested.get(k));
+                    }
+                    interestedBidders = new ArrayList<>(copyOfInterested);
+                }
 
-//            int randBidder = rand.generateRandom(interestedBidders.length-1);
-//            while (interestedBidders[randBidder].canBid(bookObjects[i],
-//                    bookObjects[i].getCurrentBid())) {
-//
-//                bookObjects[i].setCurrentBid(new Bid(i + 1,
-//                        interestedBidders[randBidder],
-//                        bookObjects[i].getCurrentBid() + 1));
-//                System.out.println(bookObjects[i].getCurrentBid());
+                if (interestedBidders.size() == 1 && bidds.size() > 0) {
+                    System.out.println(interestedBidders.get(0).getCapital());
+                    interestedBidders.get(0).buyBook(bookObjects[i]);
+                    System.out.println(interestedBidders.get(0).getCapital());
+                    System.out.println(bookObjects[i]);
+                    System.out.println("Licitatia Oprita");
+                    System.out.println("Book Sold! For : " + bookObjects[i].getCurrentBid() + " Winner : " + interestedBidders.get(0).getName());
+                    soldBooks.add(bookObjects[i]);
+                    Transaction transaction = new Transaction(GenerateRandom.generateRandom(), interestedBidders.get(0),new Date(), bidds.get(0));
+                    System.out.println(transaction);
+                } else {
+                    System.out.println("Licitatia Continua");
+                    System.out.println(interestedBidders);
+                }
 
-            //}
-
-
+                if(interestedBidders.size() == 1) {
+                    sold = true;
+                }
+            }
+        }
+        for (int n = 0 ; n < soldBooks.size(); n++) {
+            System.out.println("\n");
+            System.out.println("Sold Books : " + soldBooks.get(n).getTitle());
+            System.out.println("pretul intial : " + soldBooks.get(n).getPrice());
+            System.out.println("pretul de vanzare : " + soldBooks.get(n).getCurrentBid());
+            System.out.println("----------");
         }
 
-//                    if(bidderObjects[j].canBid(bookObjects[i], bookObjects[i].getCurrentBid())) {
-//
-//
-//                    }
-//                    System.out.println(bidderObjects[j].canBid(bookObjects[i], bookObjects[i].getCurrentBid()));
-//                    System.out.println(bidderObjects[j].getCapital());
-//                    System.out.println(bookObjects[j].getCurrentBid());
-
-        //System.out.println(bidderObjects[j].getName() + "vrea sa cumpere");
-
-    }
+}
 
 }
