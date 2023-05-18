@@ -82,11 +82,12 @@ public class App {
                         bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
                         System.out.println("pret de licitare : " + bookObjects[i].getCurrentBid());
                         System.out.println("Licitatiile");
+                        System.out.println((interestedBidders.get(k).getCapital()));
                         System.out.println(bidds);
                         System.out.println("----------");
                     } else {
-                        System.out.println(interestedBidders);
                         copyOfInterested.remove(copyOfInterested.get(k));
+                        System.out.println(interestedBidders);
                     }
                     interestedBidders = new ArrayList<>(copyOfInterested);
                 }
@@ -106,7 +107,7 @@ public class App {
                 } else {
                     System.out.println("Licitatia Continua");
                     System.out.println("Licitatori ramasi : " + interestedBidders);
-                    System.out.println("Licitatii : " + bidds);
+                   System.out.println("Licitatii : " + bidds);
                     System.out.println("Carte Nevanduta");
                 }
 
