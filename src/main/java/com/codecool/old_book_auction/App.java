@@ -92,28 +92,34 @@ public class App {
                 }
 
                 if (interestedBidders.size() == 1 && bidds.size() > 0) {
-                    System.out.println(interestedBidders.get(0).getCapital());
+                    System.out.println("Capital initial : " +interestedBidders.get(0).getCapital());
                     interestedBidders.get(0).buyBook(bookObjects[i]);
-                    System.out.println(interestedBidders.get(0).getCapital());
+                    System.out.println("Capital dupa cumparare : " + interestedBidders.get(0).getCapital());
                     System.out.println(bookObjects[i]);
                     System.out.println("Licitatia Oprita");
-                    System.out.println("Book Sold! For : " + bookObjects[i].getCurrentBid() + " Winner : " + interestedBidders.get(0).getName());
+                    System.out.println("Book Sold! For : " + bookObjects[i].getCurrentBid() +
+                            " Winner : " + interestedBidders.get(0).getName());
                     soldBooks.add(bookObjects[i]);
-                    Transaction transaction = new Transaction(GenerateRandom.generateRandom(), interestedBidders.get(0),new Date(), bidds.get(0));
+                    Transaction transaction = new Transaction(GenerateRandom.generateRandom(),
+                            interestedBidders.get(0),new Date(), bidds.get(0));
                     System.out.println(transaction);
                 } else {
                     System.out.println("Licitatia Continua");
-                    System.out.println(interestedBidders);
+                    System.out.println("Licitatori ramasi : " + interestedBidders);
+                    System.out.println("Licitatii : " + bidds);
+                    System.out.println("Carte Nevanduta");
                 }
 
-                if(interestedBidders.size() == 1) {
+                if(interestedBidders.size() == 1 ) {
                     sold = true;
                 }
             }
         }
+        System.out.println("\n");
+        System.out.println("Sold Books : \n");
         for (int n = 0 ; n < soldBooks.size(); n++) {
-            System.out.println("\n");
-            System.out.println("Sold Books : " + soldBooks.get(n).getTitle());
+
+            System.out.println(soldBooks.get(n).getTitle());
             System.out.println("pretul intial : " + soldBooks.get(n).getPrice());
             System.out.println("pretul de vanzare : " + soldBooks.get(n).getCurrentBid());
             System.out.println("----------");
