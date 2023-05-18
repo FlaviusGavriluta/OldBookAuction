@@ -31,10 +31,8 @@ public class App {
                     GenerateRandom.generateRandom(minPrice, maxPrice)
             );
         }
-
         for (int i = 0; i < bidderCount; i++) {
             ArrayList<Topic> shuffledTopics = new ArrayList<>(Arrays.asList(Topic.values()));
-
             Collections.shuffle(shuffledTopics);
             Topic FavTopic = shuffledTopics.get(0);
             Topic IntrTopic1 = shuffledTopics.get(1);
@@ -44,88 +42,77 @@ public class App {
                     FavTopic,
                     new Topic[]{IntrTopic1, IntrTopic2});
         }
-
         for (int i = 0; i < bookCount; i++) {
             ArrayList<Bidder> interestedBidders = new ArrayList<>();
             ArrayList<Bid> bidds = new ArrayList<>();
             ArrayList<Bidder> copyOfInterested = new ArrayList<>();
             System.out.println("\n");
             System.out.println("Cartea scoasa la licitatie");
-            System.out.println(bookObjects[i].getTitle());
-            System.out.println(bookObjects[i].getPrice());
-            System.out.println(bookObjects[i].getTopic());
+            System.out.println("Titlu : " + bookObjects[i].getTitle());
+            System.out.println("Pret pornire : " + bookObjects[i].getPrice());
+            System.out.println("Gen : " + bookObjects[i].getTopic());
             System.out.println("=========");
 
             for (int j = 0; j < bidderCount; j++) {
                 if (bookObjects[i].getTopic() == bidderObjects[j].getFavourite() ||
                         Arrays.asList(bidderObjects[j].getInterested()).contains(bookObjects[i].getTopic())) {
-                    interestedBidders.add(bidderObjects[j]);
-                    copyOfInterested.add(bidderObjects[j]);
+                    if (bidderObjects[j].canBid(
+                            bookObjects[i],
+                            bookObjects[i].getCurrentBid())) {
+                        interestedBidders.add(bidderObjects[j]);
+                        copyOfInterested.add(bidderObjects[j]);
+                    }
                 }
             }
-            Collections.shuffle(interestedBidders);
-            System.out.println("Licitatorii");
-            System.out.println(interestedBidders);
-            System.out.println("----------");
-
-            boolean sold = false;
-            while (!sold) {
+            System.out.println("Bidders : " + interestedBidders);
+            while (interestedBidders.size() >= 1) {
                 for (int k = 0; k < interestedBidders.size(); k++) {
-                    if (interestedBidders.get(k).canBid(
-                            bookObjects[i],
-                            bookObjects[i].getCurrentBid())
-                    ) {
-                        bidds.add(new Bid(GenerateRandom.generateRandom(),
-                                interestedBidders.get(k),
-                                interestedBidders.get(k).makeBid(bookObjects[i])));
-                        System.out.println("pret initial:" + bookObjects[i].getPrice());
-                        bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
-                        System.out.println("pret de licitare : " + bookObjects[i].getCurrentBid());
-                        System.out.println("Licitatiile");
-                        System.out.println((interestedBidders.get(k).getCapital()));
-                        System.out.println(bidds);
-                        System.out.println("----------");
-                    } else {
+                    Bid nextBid = new Bid(GenerateRandom.generateRandom(),
+                            interestedBidders.get(k),
+                            interestedBidders.get(k).makeBid(bookObjects[i]));
+                    if ( nextBid.getPrice() <= bookObjects[i].getCurrentBid() ){
+                        System.out.println("A iesit din licitatie : " + interestedBidders.get(k).getName());
                         copyOfInterested.remove(copyOfInterested.get(k));
-                        System.out.println(interestedBidders);
+                        interestedBidders = new ArrayList<>(copyOfInterested);
+                    } else {
+                        bidds.add(nextBid);
+                        bookObjects[i].setCurrentBid(bidds.get(bidds.size() - 1).getPrice());
+                        System.out.println("Bids : " + bidds.get(bidds.size()-1).getPrice() + " " + bidds.get(bidds.size()-1).getBidder().getName());
+                        System.out.println("Current bid : " + bookObjects[i].getCurrentBid() + " ! Going once... ");
+                        if (bidds.get(bidds.size() - 1).getPrice() <= bookObjects[i].getCurrentBid()) {
+                            copyOfInterested.remove(copyOfInterested.get(k));
+                            interestedBidders = new ArrayList<>(copyOfInterested);
+                        }
                     }
-                    interestedBidders = new ArrayList<>(copyOfInterested);
                 }
-
-                if (interestedBidders.size() == 1 && bidds.size() > 0) {
-                    System.out.println("Capital initial : " +interestedBidders.get(0).getCapital());
-                    interestedBidders.get(0).buyBook(bookObjects[i]);
-                    System.out.println("Capital dupa cumparare : " + interestedBidders.get(0).getCapital());
-                    System.out.println(bookObjects[i]);
-                    System.out.println("Licitatia Oprita");
-                    System.out.println("Book Sold! For : " + bookObjects[i].getCurrentBid() +
-                            " Winner : " + interestedBidders.get(0).getName());
-                    soldBooks.add(bookObjects[i]);
-                    Transaction transaction = new Transaction(GenerateRandom.generateRandom(),
-                            interestedBidders.get(0),new Date(), bidds.get(0));
-                    System.out.println(transaction);
-                } else {
-                    System.out.println("Licitatia Continua");
-                    System.out.println("Licitatori ramasi : " + interestedBidders);
-                   System.out.println("Licitatii : " + bidds);
-                    System.out.println("Carte Nevanduta");
-                }
-
-                if(interestedBidders.size() == 1 ) {
-                    sold = true;
-                }
+            }
+            if (bidds.size() == 0) {
+                System.out.println("Nu sunt interesati");
+            }
+            if (bidds.size() == 1) {
+                bidds.get(0).getBidder().buyBook(bookObjects[i]);
+                soldBooks.add(bookObjects[i]);
+                Transaction transaction = new Transaction(GenerateRandom.generateRandom(),
+                        bidds.get(0).getBidder(), new Date(), bidds.get(0));
+                System.out.println("Winner : " + bidds.get(0).getBidder().getName());
+                System.out.println(transaction);
+            }
+            if (bidds.size() > 1) {
+                bidds.get(bidds.size() - 1).getBidder().buyBook(bookObjects[i]);
+                soldBooks.add(bookObjects[i]);
+                Transaction transaction = new Transaction(GenerateRandom.generateRandom(),
+                        bidds.get(bidds.size() - 1).getBidder(), new Date(), bidds.get(0));
+                System.out.println("Winner : " + bidds.get(bidds.size()-1).getBidder().getName());
+                System.out.println(transaction);
             }
         }
         System.out.println("\n");
         System.out.println("Sold Books : \n");
-        for (int n = 0 ; n < soldBooks.size(); n++) {
-
+        for (int n = 0; n < soldBooks.size(); n++) {
             System.out.println(soldBooks.get(n).getTitle());
             System.out.println("pretul intial : " + soldBooks.get(n).getPrice());
             System.out.println("pretul de vanzare : " + soldBooks.get(n).getCurrentBid());
             System.out.println("----------");
         }
-
-}
-
+    }
 }
