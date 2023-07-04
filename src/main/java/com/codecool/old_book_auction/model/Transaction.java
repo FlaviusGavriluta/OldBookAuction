@@ -1,49 +1,43 @@
 package com.codecool.old_book_auction.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Transaction {
-    private final int id;
-    private final Bidder bidder;
+    private int id;
+    private LocalDateTime timestamp;
+    private Bid bid;
+    private Bidder bidder;
 
-    private Date date;
-
-    private final Bid bid;
-
-
-    public Transaction(int id, Bidder bidder, Date date, Bid bid) {
+    public Transaction(int id, LocalDateTime timestamp, Bid bid, Bidder bidder) {
         this.id = id;
-        this.bidder = bidder;
-        this.date = date;
+        this.timestamp = timestamp;
         this.bid = bid;
+        this.bidder = bidder;
     }
 
     public int getId() {
         return id;
     }
 
-    public Bidder getBidder() {
-        return bidder;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
-
-
 
     public Bid getBid() {
         return bid;
+    }
+
+    public Bidder getBidder() {
+        return bidder;
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
                 "id=" + id +
-                ", bidder=" + bidder +
-                ", timestamp='" + date + '\'' +
+                ", timestamp=" + timestamp +
                 ", bid=" + bid +
+                ", bidder=" + bidder +
                 '}';
-    }
-
-    public Date getDate() {
-        return date;
     }
 }

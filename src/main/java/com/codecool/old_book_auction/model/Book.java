@@ -1,34 +1,28 @@
 package com.codecool.old_book_auction.model;
 
 public class Book {
+    private int id;
+    private Books title;
+    private Topics topic;
+    private int price;
+    private int soldPrice;
 
-    private final int id;
-
-    private final Books books;
-
-    private final Topic topic;
-
-    private final int price;
-
-    private int currentBid;
-    public Book(int id, Books books, Topic topic, int price) {
+    public Book(int id, Books name, Topics topic, int price) {
         this.id = id;
-        this.books = books;
+        this.title = name;
         this.topic = topic;
         this.price = price;
-        this.currentBid = price;
     }
-
 
     public int getId() {
         return id;
     }
 
-    public Books getTitle() {
-        return books;
+    public Books getBookTitle() {
+        return title;
     }
 
-    public Topic getTopic() {
+    public Topics getTopic() {
         return topic;
     }
 
@@ -36,23 +30,21 @@ public class Book {
         return price;
     }
 
+    public void setSoldPrice(int soldPrice) {
+        this.soldPrice = soldPrice;
+    }
+
+    public int getSoldPrice() {
+        return soldPrice;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", title='" + books + '\'' +
-                ", topic='" + topic + '\'' +
-                ", price=" + price + '\'' +
-                ",currentBid=" + currentBid +
+                ", name='" + title + '\'' +
+                ", topic=" + topic +
+                ", price=" + price +
                 '}';
-    }
-
-    public void setCurrentBid(int currentBid) {
-
-        this.currentBid = currentBid;
-    }
-
-    public int getCurrentBid() {
-        return currentBid;
     }
 }

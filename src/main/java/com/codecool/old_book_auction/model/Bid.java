@@ -1,16 +1,16 @@
 package com.codecool.old_book_auction.model;
 
 public class Bid {
-    private final int id;
-    private final Bidder bidder;
+    private int id;
+    private Bidder bidder;
+    private int bidPrice;
+    private static int counter = 0;
 
-    private final int price;
-
-
-    public Bid(int id, Bidder bidder, int price) {
-        this.id = id;
+    public Bid(Bidder bidder, int bidPrice) {
+        this.id = counter;
+        counter++;
         this.bidder = bidder;
-        this.price = price;
+        this.bidPrice = bidPrice;
     }
 
     public int getId() {
@@ -21,8 +21,8 @@ public class Bid {
         return bidder;
     }
 
-    public int getPrice() {
-        return price;
+    public int getBidPrice() {
+        return bidPrice;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Bid {
         return "Bid{" +
                 "id=" + id +
                 ", bidder=" + bidder.getName() +
-                ", price=" + price +
+                ", bidPrice=" + bidPrice +
                 '}';
     }
 }
