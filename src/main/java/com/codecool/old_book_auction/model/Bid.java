@@ -4,9 +4,11 @@ public class Bid {
     private int id;
     private Bidder bidder;
     private int bidPrice;
+    private static int counter = 0;
 
-    public Bid(int id, Bidder bidder, int bidPrice) {
-        this.id = id;
+    public Bid(Bidder bidder, int bidPrice) {
+        this.id = counter;
+        counter++;
         this.bidder = bidder;
         this.bidPrice = bidPrice;
     }

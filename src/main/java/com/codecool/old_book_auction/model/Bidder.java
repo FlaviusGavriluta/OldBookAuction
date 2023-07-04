@@ -30,9 +30,9 @@ public class Bidder {
         return currentPrice < getThresholdPrice(book.getTopic());
     }
 
-    public Bid getBid(int bidID, Book book, Bid currentBid) {
+    public Bid getBid(Book book, Bid currentBid) {
         int bidPrice = getBidPrice(currentBid.getBidPrice(), getThresholdPrice(book.getTopic()));
-        return new Bid(bidID, this, bidPrice);
+        return new Bid(this, bidPrice);
     }
 
     private static int getBidPrice(int currentPrice, int threshold) {
@@ -65,14 +65,9 @@ public class Bidder {
         return capital;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
-
 
     @Override
     public String toString() {
